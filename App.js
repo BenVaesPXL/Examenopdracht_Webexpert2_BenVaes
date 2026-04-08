@@ -1,20 +1,75 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import { createStaticNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+import HomeScreen from './app/screens/HomeScreen';
+import ScanScreen from './app/screens/ScanScreen';
+import RoomListScreen from './app/screens/RoomListScreen';
+import RoomDetailScreen from './app/screens/RoomDetailScreen';
+import ProfielScreen from './app/screens/ProfielScreen';
+import ReportFormScreen from './app/screens/ReportFormScreen';
+import SettingsScreen from './app/screens/SettingsScreen';
+
+const LokaalenStack = createNativeStackNavigator({
+    screens: {
+        RoomList: RoomListScreen,
+        RoomDetail: RoomDetailScreen,
+    },
+});
+
+const ProfielStack = createNativeStackNavigator({
+    screens: {
+        Profiel: {
+            screen: ProfielScreen,
+            options: { headerShown: false },
+        },
+        ReportForm: ReportFormScreen,
+    },
+});
+
+const Tabs = createBottomTabNavigator({
+    screenOptions: {
+        headerShown: false,
+    },
+    screens: {
+        Home: HomeScreen,
+        Scan: ScanScreen,
+        Lokalen: {
+            screen: LokaalenStack,
+            options: { headerShown: false },
+        },
+        Profiel: {
+            screen: ProfielStack,
+            options: { headerShown: false },
+        },
+    },
+});
+
+const AppDrawer = createDrawerNavigator({
+    screenOptions: {
+        drawerType: 'front',
+    },
+    screens: {
+        Main: {
+            screen: Tabs,
+            options: { headerShown: false },
+        },
+        Settings: SettingsScreen,
+    },
+});
+
+const Navigation = createStaticNavigation(AppDrawer);
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    return (
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <SafeAreaProvider>
+                <Navigation />
+            </SafeAreaProvider>
+        </GestureHandlerRootView>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
