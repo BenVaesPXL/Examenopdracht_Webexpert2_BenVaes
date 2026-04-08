@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/json-server/schema.json",
+  "users": [
+    { "id": "1", "name": "Ben Vaes", "email": "ben@student.pxl.be", "password": "test123", "role": "student" },
+    { "id": "2", "name": "Lector X", "email": "lector@pxl.be", "password": "test123", "role": "lector" },
+    { "id": "3", "name": "Beheerder", "email": "admin@pxl.be", "password": "test123", "role": "admin" }
+  ],
+  "rooms": [
+    { "id": "A101", "name": "Leslokaal A101", "floor": 1, "capacity": 30, "type": "leslokaal", "building": "A" },
+    { "id": "A102", "name": "Leslokaal A102", "floor": 1, "capacity": 25, "type": "leslokaal", "building": "A" },
+    { "id": "B201", "name": "Labo B201", "floor": 2, "capacity": 20, "type": "labo", "building": "B" }
+  ],
+  "schedule": [
+    { "id": "1", "roomId": "A101", "course": "Web Expert 2", "teacher": "Lector X", "start": "08:30", "end": "12:00", "day": "maandag" },
+    { "id": "2", "roomId": "A101", "course": "UX Design", "teacher": "Lector Y", "start": "13:00", "end": "16:00", "day": "maandag" },
+    { "id": "3", "roomId": "B201", "course": "Mobile Dev", "teacher": "Lector X", "start": "09:00", "end": "12:00", "day": "dinsdag" }
+  ],
+  "reports": [
+    { "id": "1", "roomId": "A101", "userId": "1", "type": "technisch", "description": "Beamer werkt niet", "status": "open", "createdAt": "2026-04-07" }
+  ]
+}
