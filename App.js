@@ -31,20 +31,58 @@ const ProfielStack = createNativeStackNavigator({
     },
 });
 
+
 const Tabs = createBottomTabNavigator({
     screenOptions: {
         headerShown: false,
+        tabBarStyle: {
+            backgroundColor: '#131313',
+            borderTopWidth: 1,
+            borderTopColor: 'rgba(255, 255, 255, 0.05)',
+            height: 80,
+            paddingBottom: 10,
+            paddingTop: 10,
+        },
+        tabBarActiveTintColor: '#e6c364',
+        tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.4)',
+        tabBarLabelStyle: {
+            fontSize: 10,
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            letterSpacing: 0.5,
+        },
+        tabBarItemStyle: {
+            paddingVertical: 4,
+        },
     },
     screens: {
-        Home: HomeScreen,
-        Scan: ScanScreen,
+        Home: {
+            screen: HomeScreen,
+            options: { 
+                headerShown: false,
+                tabBarLabel: 'HOME'
+            },
+        },
+        Scan: {
+            screen: ScanScreen,
+            options: { 
+                headerShown: false,
+                tabBarLabel: 'SCAN'
+            },
+        },
         Lokalen: {
             screen: LokaalenStack,
-            options: { headerShown: false },
+            options: { 
+                headerShown: false,
+                tabBarLabel: 'ROOMS'
+            },
         },
         Profiel: {
             screen: ProfielStack,
-            options: { headerShown: false },
+            options: { 
+                headerShown: false,
+                tabBarLabel: 'PROFILE'
+            },
         },
     },
 });
