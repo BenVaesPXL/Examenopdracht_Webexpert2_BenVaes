@@ -20,7 +20,10 @@ const LokaalenStack = createNativeStackNavigator({
             screen: RoomListScreen,
             options: { headerShown: false },
         },
-        RoomDetail: RoomDetailScreen,
+        RoomDetail: {
+            screen: RoomDetailScreen,
+            options: { headerShown: false },
+        },
     },
 });
 
