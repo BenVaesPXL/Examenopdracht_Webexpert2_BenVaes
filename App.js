@@ -16,7 +16,10 @@ import SettingsScreen from './app/screens/SettingsScreen';
 
 const LokaalenStack = createNativeStackNavigator({
     screens: {
-        RoomList: RoomListScreen,
+        RoomList: {
+            screen: RoomListScreen,
+            options: { headerShown: false },
+        },
         RoomDetail: RoomDetailScreen,
     },
 });
