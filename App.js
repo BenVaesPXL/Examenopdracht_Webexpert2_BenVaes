@@ -16,14 +16,20 @@ import SettingsScreen from './app/screens/SettingsScreen';
 
 const LokaalenStack = createNativeStackNavigator({
     screens: {
-        RoomList: RoomListScreen,
-        RoomDetail: RoomDetailScreen,
+        RoomList: {
+            screen: RoomListScreen,
+            options: { headerShown: false },
+        },
+        RoomDetail: {
+            screen: RoomDetailScreen,
+            options: { headerShown: false },
+        },
     },
 });
 
 const ProfielStack = createNativeStackNavigator({
     screens: {
-        Profiel: {
+        ProfileDetail: {
             screen: ProfielScreen,
             options: { headerShown: false },
         },
@@ -77,7 +83,7 @@ const Tabs = createBottomTabNavigator({
                 tabBarLabel: 'ROOMS'
             },
         },
-        Profiel: {
+        Profile: {
             screen: ProfielStack,
             options: { 
                 headerShown: false,
