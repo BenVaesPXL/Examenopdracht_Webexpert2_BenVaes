@@ -48,8 +48,8 @@ export default function RoomDetailScreen() {
     }, [id]);
 
     const handleReportIssue = () => {
-        // Navigate to Profiel stack -> ReportForm screen
-        navigation.navigate('Profiel', { 
+        // Navigate to Profile stack -> ReportForm screen
+        navigation.navigate('Profile', { 
             screen: 'ReportForm',
             params: { roomId: id }
         });

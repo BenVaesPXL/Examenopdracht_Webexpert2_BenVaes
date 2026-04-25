@@ -11,7 +11,7 @@ type RootTabParamList = {
     Home: undefined;
     Scan: undefined;
     Lokalen: undefined;
-    Profiel: { screen?: string };
+    Profile: { screen?: string };
 };
 
 type RootDrawerParamList = {
@@ -69,7 +69,7 @@ export default function HomeScreen() {
     };
 
     const handleReportIssue = () => {
-        navigation.navigate('Profiel', { screen: 'ReportForm' });
+        navigation.navigate('Profile', { screen: 'ReportForm' });
     };
 
     const handleRoomsList = () => {
