@@ -1,28 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getRooms, Room } from '../api/api';
+import { useToast } from '../context/ToastContext';
+import { handleApiError } from '../utils/errorHandling';
+import LoadingSpinner, { RoomCardSkeleton } from '../components/LoadingSpinner';
 
 export default function RoomListScreen() {
     const navigation = useNavigation<any>();
     const [rooms, setRooms] = useState<Room[]>([]);
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+    const toast = useToast();
+
+    const fetchRooms = async (showError = true) => {
+        try {
+            const data = await getRooms();
+            setRooms(data);
+        } catch (error) {
+            if (showError) {
+                const errorToast = handleApiError(error);
+                toast.showToast(errorToast);
+            }
+        } finally {
+            setLoading(false);
+            setRefreshing(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchRooms = async () => {
-            try {
-                const data = await getRooms();
-                setRooms(data);
-            } catch (error) {
-                console.error('Error fetching rooms:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchRooms();
     }, []);
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+        fetchRooms(false); // Don't show error on refresh
+    };
 
     const handleRoomPress = (roomId: string) => {
         navigation.navigate('RoomDetail', { id: roomId });
@@ -49,8 +63,14 @@ export default function RoomListScreen() {
     if (loading) {
         return (
             <SafeAreaView style={styles.container}>
-                <View style={styles.center}>
-                    <ActivityIndicator color="#e6c364" size="large" />
+                <View style={styles.header}>
+                    <Text style={styles.title}>All Rooms</Text>
+                    <View style={styles.divider} />
+                </View>
+                <View style={styles.listContainer}>
+                    {[1, 2, 3, 4, 5].map((index) => (
+                        <RoomCardSkeleton key={index} />
+                    ))}
                 </View>
             </SafeAreaView>
         );
@@ -69,7 +89,9 @@ export default function RoomListScreen() {
                 contentContainerStyle={styles.listContainer}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={
-                    <Text style={styles.emptyText}>No rooms available at the moment.</Text>
+                    <View style={styles.emptyContainer}>
+                        <Text style={styles.emptyText}>No rooms available at the moment.</Text>
+                    </View>
                 }
             />
         </SafeAreaView>
@@ -152,6 +174,12 @@ const styles = StyleSheet.create({
         color: '#e6c364',
         fontSize: 10,
         fontWeight: 'bold',
+    },
+    emptyContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 24,
     },
     emptyText: {
         color: '#d0c5b2',

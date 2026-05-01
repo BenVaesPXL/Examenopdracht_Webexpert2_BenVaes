@@ -1,39 +1,237 @@
 {
   "users": [
-    { "id": "1", "name": "Ben Vaes", "email": "ben@student.pxl.be", "password": "test123", "role": "student" },
-    { "id": "2", "name": "Kris Hermans", "email": "kris.hermans@pxl.be", "password": "test123", "role": "lector" },
-    { "id": "3", "name": "Joris Vandervelden", "email": "joris.vandervelden@pxl.be", "password": "test123", "role": "lector" },
-    { "id": "4", "name": "Sophie Peeters", "email": "sophie.peeters@pxl.be", "password": "test123", "role": "lector" },
-    { "id": "5", "name": "Admin FindIt", "email": "admin@pxl.be", "password": "test123", "role": "admin" }
+    {
+      "id": "1",
+      "name": "Ben Vaes",
+      "email": "ben@student.pxl.be",
+      "password": "test123",
+      "role": "student"
+    },
+    {
+      "id": "2",
+      "name": "Kris Hermans",
+      "email": "kris.hermans@pxl.be",
+      "password": "test123",
+      "role": "lector"
+    },
+    {
+      "id": "3",
+      "name": "Joris Vandervelden",
+      "email": "joris.vandervelden@pxl.be",
+      "password": "test123",
+      "role": "lector"
+    },
+    {
+      "id": "4",
+      "name": "Sophie Peeters",
+      "email": "sophie.peeters@pxl.be",
+      "password": "test123",
+      "role": "lector"
+    },
+    {
+      "id": "5",
+      "name": "Admin FindIt",
+      "email": "admin@pxl.be",
+      "password": "test123",
+      "role": "admin"
+    }
   ],
   "rooms": [
-    { "id": "A101", "name": "PC-Lokaal Digitaal", "floor": 1, "capacity": 30, "type": "pc-lokaal", "building": "A" },
-    { "id": "A102", "name": "Theoriezaal A102", "floor": 1, "capacity": 45, "type": "leslokaal", "building": "A" },
-    { "id": "A204", "name": "UX Design Studio", "floor": 2, "capacity": 20, "type": "leslokaal", "building": "A" },
-    { "id": "B105", "name": "Netwerk Labo", "floor": 1, "capacity": 24, "type": "labo", "building": "B" },
-    { "id": "B201", "name": "Mobile Dev Lab", "floor": 2, "capacity": 22, "type": "labo", "building": "B" },
-    { "id": "C001", "name": "Aula Magna", "floor": 0, "capacity": 150, "type": "aula", "building": "C" },
-    { "id": "C112", "name": "Projectruimte", "floor": 1, "capacity": 15, "type": "leslokaal", "building": "C" }
+    {
+      "id": "A101",
+      "name": "PC-Lokaal Digitaal",
+      "floor": 1,
+      "capacity": 30,
+      "type": "pc-lokaal",
+      "building": "A"
+    },
+    {
+      "id": "A102",
+      "name": "Theoriezaal A102",
+      "floor": 1,
+      "capacity": 45,
+      "type": "leslokaal",
+      "building": "A"
+    },
+    {
+      "id": "A204",
+      "name": "UX Design Studio",
+      "floor": 2,
+      "capacity": 20,
+      "type": "leslokaal",
+      "building": "A"
+    },
+    {
+      "id": "B105",
+      "name": "Netwerk Labo",
+      "floor": 1,
+      "capacity": 24,
+      "type": "labo",
+      "building": "B"
+    },
+    {
+      "id": "B201",
+      "name": "Mobile Dev Lab",
+      "floor": 2,
+      "capacity": 22,
+      "type": "labo",
+      "building": "B"
+    },
+    {
+      "id": "C001",
+      "name": "Aula Magna",
+      "floor": 0,
+      "capacity": 150,
+      "type": "aula",
+      "building": "C"
+    },
+    {
+      "id": "C112",
+      "name": "Projectruimte",
+      "floor": 1,
+      "capacity": 15,
+      "type": "leslokaal",
+      "building": "C"
+    }
   ],
   "schedule": [
-    { "id": "1", "roomId": "A101", "course": "Web Expert 2", "teacher": "Kris Hermans", "start": "08:30", "end": "12:00", "day": "maandag" },
-    { "id": "2", "roomId": "A101", "course": "Full Stack Dev", "teacher": "Sophie Peeters", "start": "13:00", "end": "16:30", "day": "maandag" },
-    { "id": "3", "roomId": "A101", "course": "Mobile Foundations", "teacher": "Kris Hermans", "start": "09:00", "end": "12:30", "day": "dinsdag" },
-    { "id": "4", "roomId": "A101", "course": "Database Design", "teacher": "Joris Vandervelden", "start": "08:30", "end": "11:00", "day": "woensdag" },
-    { "id": "5", "roomId": "A101", "course": "Web Security", "teacher": "Sophie Peeters", "start": "13:30", "end": "17:00", "day": "woensdag" },
-    
-    { "id": "6", "roomId": "A204", "course": "UX Design", "teacher": "Joris Vandervelden", "start": "08:30", "end": "12:00", "day": "donderdag" },
-    { "id": "7", "roomId": "A204", "course": "Visual Prototyping", "teacher": "Joris Vandervelden", "start": "13:00", "end": "16:00", "day": "donderdag" },
-    
-    { "id": "8", "roomId": "B201", "course": "React Native Lab", "teacher": "Kris Hermans", "start": "08:30", "end": "12:00", "day": "vrijdag" },
-    { "id": "9", "roomId": "B201", "course": "API Development", "teacher": "Sophie Peeters", "start": "13:00", "end": "15:30", "day": "vrijdag" },
-    
-    { "id": "10", "roomId": "C001", "course": "Algemene Informatica", "teacher": "Sophie Peeters", "start": "09:00", "end": "11:00", "day": "maandag" },
-    { "id": "11", "roomId": "C001", "course": "Bedrijfsorganisatie", "teacher": "Lector Z", "start": "14:00", "end": "16:00", "day": "dinsdag" }
+    {
+      "id": "1",
+      "roomId": "A101",
+      "course": "Web Expert 2",
+      "teacher": "Kris Hermans",
+      "start": "08:30",
+      "end": "12:00",
+      "day": "maandag"
+    },
+    {
+      "id": "2",
+      "roomId": "A101",
+      "course": "Full Stack Dev",
+      "teacher": "Sophie Peeters",
+      "start": "13:00",
+      "end": "16:30",
+      "day": "maandag"
+    },
+    {
+      "id": "3",
+      "roomId": "A101",
+      "course": "Mobile Foundations",
+      "teacher": "Kris Hermans",
+      "start": "09:00",
+      "end": "12:30",
+      "day": "dinsdag"
+    },
+    {
+      "id": "4",
+      "roomId": "A101",
+      "course": "Database Design",
+      "teacher": "Joris Vandervelden",
+      "start": "08:30",
+      "end": "11:00",
+      "day": "woensdag"
+    },
+    {
+      "id": "5",
+      "roomId": "A101",
+      "course": "Web Security",
+      "teacher": "Sophie Peeters",
+      "start": "13:30",
+      "end": "17:00",
+      "day": "woensdag"
+    },
+    {
+      "id": "6",
+      "roomId": "A204",
+      "course": "UX Design",
+      "teacher": "Joris Vandervelden",
+      "start": "08:30",
+      "end": "12:00",
+      "day": "donderdag"
+    },
+    {
+      "id": "7",
+      "roomId": "A204",
+      "course": "Visual Prototyping",
+      "teacher": "Joris Vandervelden",
+      "start": "13:00",
+      "end": "16:00",
+      "day": "donderdag"
+    },
+    {
+      "id": "8",
+      "roomId": "B201",
+      "course": "React Native Lab",
+      "teacher": "Kris Hermans",
+      "start": "08:30",
+      "end": "12:00",
+      "day": "vrijdag"
+    },
+    {
+      "id": "9",
+      "roomId": "B201",
+      "course": "API Development",
+      "teacher": "Sophie Peeters",
+      "start": "13:00",
+      "end": "15:30",
+      "day": "vrijdag"
+    },
+    {
+      "id": "10",
+      "roomId": "C001",
+      "course": "Algemene Informatica",
+      "teacher": "Sophie Peeters",
+      "start": "09:00",
+      "end": "11:00",
+      "day": "maandag"
+    },
+    {
+      "id": "11",
+      "roomId": "C001",
+      "course": "Bedrijfsorganisatie",
+      "teacher": "Lector Z",
+      "start": "14:00",
+      "end": "16:00",
+      "day": "dinsdag"
+    }
   ],
   "reports": [
-    { "id": "1", "roomId": "A101", "userId": "1", "type": "Technisch", "description": "De beamer geeft een geel beeld.", "status": "In Behandeling", "createdAt": "2026-04-20" },
-    { "id": "2", "roomId": "B201", "userId": "1", "type": "Infrastructuur", "description": "Airco maakt veel lawaai.", "status": "Opgelost", "createdAt": "2026-04-22" },
-    { "id": "3", "roomId": "A204", "userId": "1", "type": "Netwerk", "description": "Slechte WiFi verbinding in de hoek.", "status": "Open", "createdAt": "2026-04-25" }
-  ]
+    {
+      "id": "1",
+      "roomId": "A101",
+      "userId": "1",
+      "type": "Technisch",
+      "description": "De beamer geeft een geel beeld.",
+      "status": "In Behandeling",
+      "createdAt": "2026-04-20"
+    },
+    {
+      "id": "2",
+      "roomId": "B201",
+      "userId": "1",
+      "type": "Infrastructuur",
+      "description": "Airco maakt veel lawaai.",
+      "status": "Opgelost",
+      "createdAt": "2026-04-22"
+    },
+    {
+      "id": "3",
+      "roomId": "A204",
+      "userId": "1",
+      "type": "Netwerk",
+      "description": "Slechte WiFi verbinding in de hoek.",
+      "status": "Open",
+      "createdAt": "2026-04-25"
+    },
+    {
+      "roomId": "A102",
+      "userId": "1",
+      "type": "Infrastructuur",
+      "description": "Hey hey hey",
+      "status": "Open",
+      "createdAt": "2026-05-01",
+      "id": "MH6V7oO6dpM"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

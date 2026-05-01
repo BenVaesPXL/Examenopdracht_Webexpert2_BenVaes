@@ -6,6 +6,9 @@ import { CompositeNavigationProp } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getRooms, getScheduleByRoom, getUsers, Room, Schedule, User } from '../api/api';
+import { useToast } from '../context/ToastContext';
+import { handleApiError } from '../utils/errorHandling';
+import LoadingSpinner, { FullScreenSkeleton } from '../components/LoadingSpinner';
 
 type RootTabParamList = {
     Home: undefined;
@@ -27,11 +30,16 @@ type HomeScreenNavigationProp = CompositeNavigationProp<
 
 export default function HomeScreen() {
     const navigation = useNavigation<HomeScreenNavigationProp>();
+    const toast = useToast();
     const [rooms, setRooms] = useState<Room[]>([]);
     const [schedules, setSchedules] = useState<Schedule[]>([]);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [currentTime, setCurrentTime] = useState(new Date());
+
+    const openDrawer = () => {
+        navigation.openDrawer();
+    };
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -54,7 +62,8 @@ export default function HomeScreen() {
                 setSchedules(flatSchedules);
                 setCurrentUser(usersData[0]);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                const errorToast = handleApiError(error);
+                toast.showToast(errorToast);
             } finally {
                 setLoading(false);
             }
@@ -148,13 +157,7 @@ export default function HomeScreen() {
     };
 
     if (loading) {
-        return (
-            <SafeAreaView style={styles.container}>
-                <View style={styles.loadingContainer}>
-                    <Text style={styles.loadingText}>Loading...</Text>
-                </View>
-            </SafeAreaView>
-        );
+        return <FullScreenSkeleton />;
     }
 
     const { type, schedule } = getScheduleStatus();
@@ -165,15 +168,15 @@ export default function HomeScreen() {
         <SafeAreaView style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
+                <TouchableOpacity style={styles.menuButton} onPress={openDrawer}>
+                    <Text style={styles.menuIcon}>☰</Text>
+                </TouchableOpacity>
                 <View style={styles.headerContent}>
                     <View style={styles.profileContainer}>
                         <View style={styles.profilePlaceholder} />
                     </View>
                     <Text style={styles.greeting}>Good Morning, {currentUser?.name || 'Student'}</Text>
                 </View>
-                <TouchableOpacity style={styles.settingsButton}>
-                    <View style={styles.settingsIconPlaceholder} />
-                </TouchableOpacity>
             </View>
             
             <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
@@ -503,13 +506,18 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         letterSpacing: -0.45,
     },
-    settingsButton: {
+    menuButton: {
         padding: 8,
         borderRadius: 4,
+        backgroundColor: 'rgba(230, 195, 100, 0.1)',
+        borderWidth: 1,
+        borderColor: '#e6c364',
     },
-    settingsIcon: {
-        width: 15,
-        height: 19,
+    menuIcon: {
+        color: '#e6c364',
+        fontSize: 20,
+        fontWeight: 'bold',
+        lineHeight: 20,
     },
     // Placeholder styles for removed Figma assets
     heroIconPlaceholder: {
