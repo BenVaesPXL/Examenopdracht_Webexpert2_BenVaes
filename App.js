@@ -125,13 +125,14 @@ const AppDrawer = createDrawerNavigator({
       screen: Tabs,
       options: {
         headerShown: false,
-        drawerLabel: "Home",
-        drawerIcon: ({ focused, color, size }) => (focused ? "🏠" : "🏠"),
+        drawerLabel: "Main",
+        drawerIcon: ({ focused, color, size }) => (focused ? "☰" : "☰"),
       },
     },
     Settings: {
       screen: SettingsScreen,
       options: {
+        headerShown: false,
         drawerLabel: "Settings",
         drawerIcon: ({ focused, color, size }) => (focused ? "⚙️" : "⚙️"),
       },
