@@ -254,15 +254,14 @@ export default function ReportFormScreen() {
             numberOfLines={4}
           />
 
-          {/* Contact Info (Optional) */}
           <FormInput
-            label="Contact Info (Optional)"
+            label="School Email (Optional)"
             value={formData.contactInfo}
             onChangeText={(value) => handleInputChange('contactInfo', value)}
             onBlur={() => handleBlur('contactInfo')}
             error={errors.contactInfo}
             touched={touched.contactInfo}
-            placeholder="Email or phone number for follow-up"
+            placeholder="student@pxl.be or name@pxl.be"
             keyboardType="email-address"
           />
 

@@ -9,14 +9,11 @@ export interface FormErrors {
   [key: string]: string | undefined;
 }
 
-// Email validation regex
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Room ID validation regex (A101, B201 pattern)
 const ROOM_ID_REGEX = /^[A-Z]\d{3}$/;
 
-// Phone validation regex (basic)
-const PHONE_REGEX = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/;
+const SCHOOL_EMAIL_REGEX = /^[^\s@]+@(student\.)?pxl\.be$/i;
 
 /**
  * Validates email format
@@ -95,15 +92,15 @@ export const validateDescription = (description: string): ValidationResult => {
 };
 
 /**
- * Validates phone number (optional field)
+ * Validates school email format (optional field)
  */
-export const validatePhone = (phone: string): ValidationResult => {
-  if (!phone || phone.trim() === '') {
-    return { isValid: true }; // Phone is optional
+export const validateSchoolEmail = (email: string): ValidationResult => {
+  if (!email || email.trim() === '') {
+    return { isValid: true }; // School email is optional
   }
   
-  if (!PHONE_REGEX.test(phone.trim())) {
-    return { isValid: false, error: 'Please enter a valid phone number' };
+  if (!SCHOOL_EMAIL_REGEX.test(email.trim())) {
+    return { isValid: false, error: 'Please enter a valid PXL school email address' };
   }
   
   return { isValid: true };
@@ -155,35 +152,30 @@ export const validateReportForm = (formData: {
 }): { isValid: boolean; errors: FormErrors } => {
   const errors: FormErrors = {};
   
-  // Validate room ID
   const roomValidation = validateRoomId(formData.roomId);
   if (!roomValidation.isValid) {
     errors.roomId = roomValidation.error;
   }
   
-  // Validate problem type
   const problemTypeValidation = validateProblemType(formData.problemType);
   if (!problemTypeValidation.isValid) {
     errors.problemType = problemTypeValidation.error;
   }
   
-  // Validate priority
   const priorityValidation = validatePriority(formData.priority);
   if (!priorityValidation.isValid) {
     errors.priority = priorityValidation.error;
   }
   
-  // Validate description
   const descriptionValidation = validateDescription(formData.description);
   if (!descriptionValidation.isValid) {
     errors.description = descriptionValidation.error;
   }
   
-  // Validate contact info (optional)
   if (formData.contactInfo) {
-    const phoneValidation = validatePhone(formData.contactInfo);
-    if (!phoneValidation.isValid) {
-      errors.contactInfo = phoneValidation.error;
+    const contactValidation = validateSchoolEmail(formData.contactInfo);
+    if (!contactValidation.isValid) {
+      errors.contactInfo = contactValidation.error;
     }
   }
   
@@ -206,13 +198,11 @@ export const sanitizeText = (text: string): string => {
 export const validateLoginForm = (email: string, password: string): { isValid: boolean; errors: FormErrors } => {
   const errors: FormErrors = {};
   
-  // Validate email
   const emailValidation = validateEmail(email);
   if (!emailValidation.isValid) {
     errors.email = emailValidation.error;
   }
   
-  // Validate password
   const passwordValidation = validateRequired(password, 'Password');
   if (!passwordValidation.isValid) {
     errors.password = passwordValidation.error;
