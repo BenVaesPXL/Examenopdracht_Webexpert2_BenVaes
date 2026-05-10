@@ -4,9 +4,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import FormInput, { Dropdown, RadioGroup } from '../components/FormInput';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useAuth } from '../providers/AuthContext';
 import { useToast } from '../providers/ToastContext';
 import { validateReportForm, sanitizeText } from '../utils/validation';
-import { handleFormError, createSuccessToast } from '../utils/errorHandling';
+import { handleFormError } from '../utils/errorHandling';
 import { getRooms, Room, createReport } from '../api/api';
 
 interface FormData {
@@ -43,6 +44,7 @@ export default function ReportFormScreen() {
   const navigation = useNavigation();
   const route = useRoute<ReportFormRouteProp>();
   const toast = useToast();
+  const { currentUser } = useAuth();
   const [rooms, setRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -51,7 +53,7 @@ export default function ReportFormScreen() {
     problemType: '',
     priority: '',
     description: '',
-    contactInfo: '',
+    contactInfo: currentUser?.email || '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Touched>({
@@ -62,14 +64,12 @@ export default function ReportFormScreen() {
     contactInfo: false,
   });
 
-  // Load rooms for dropdown and auto-fill roomId
   useEffect(() => {
     const loadRooms = async () => {
       try {
         const roomsData = await getRooms();
         setRooms(roomsData);
         
-        // Auto-fill roomId if coming from RoomDetailScreen
         if (route.params?.roomId) {
           setFormData(prev => ({ ...prev, roomId: route.params.roomId! }));
         }
@@ -82,6 +82,20 @@ export default function ReportFormScreen() {
 
     loadRooms();
   }, [toast, route.params?.roomId]);
+
+  useEffect(() => {
+    if (!currentUser?.email) {
+      return;
+    }
+
+    setFormData(prev => {
+      if (prev.contactInfo) {
+        return prev;
+      }
+
+      return { ...prev, contactInfo: currentUser.email };
+    });
+  }, [currentUser?.email]);
 
   const roomOptions = rooms.map(room => ({
     label: `${room.id} - ${room.name}`,
@@ -142,12 +156,17 @@ export default function ReportFormScreen() {
       return;
     }
 
+    if (!currentUser) {
+      toast.showError('Not Signed In', 'Please sign in before submitting a report.');
+      return;
+    }
+
     setSubmitting(true);
 
     try {
       const reportData = {
         roomId: formData.roomId,
-        userId: '1', // TODO: Get from auth context
+        userId: currentUser.id,
         type: formData.problemType,
         description: formData.description,
         status: 'Open',
@@ -165,7 +184,7 @@ export default function ReportFormScreen() {
         problemType: '',
         priority: '',
         description: '',
-        contactInfo: '',
+        contactInfo: currentUser.email,
       });
       setErrors({});
       setTouched({
