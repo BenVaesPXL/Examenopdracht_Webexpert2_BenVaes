@@ -6,7 +6,7 @@ import { CompositeNavigationProp } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getRooms, getScheduleByRoom, getUsers, Room, Schedule, User } from '../api/api';
-import { useToast } from '../context/ToastContext';
+import { useToast } from '../providers/ToastContext';
 import { handleApiError } from '../utils/errorHandling';
 import LoadingSpinner, { FullScreenSkeleton } from '../components/LoadingSpinner';
 

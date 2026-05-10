@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import FormInput, { Dropdown, RadioGroup } from '../components/FormInput';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { useToast } from '../context/ToastContext';
+import { useToast } from '../providers/ToastContext';
 import { validateReportForm, sanitizeText } from '../utils/validation';
 import { handleFormError, createSuccessToast } from '../utils/errorHandling';
 import { getRooms, Room, createReport } from '../api/api';
