@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+// import { Ionicons } from '@expo/vector-icons';
+// import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { getRoom, getScheduleByRoom, Room, Schedule } from '../api/api';
 
@@ -84,7 +85,7 @@ export default function RoomDetailScreen() {
                     style={styles.backButtonAbsolute} 
                     onPress={() => navigation.goBack()}
                 >
-                    <Ionicons name="arrow-back" size={24} color="#e6c364" />
+                    <Text style={styles.backIcon}>←</Text>
                 </TouchableOpacity>
                 <Text style={styles.errorText}>Room not found</Text>
             </View>
@@ -116,7 +117,7 @@ export default function RoomDetailScreen() {
             {/* Custom Header */}
             <View style={styles.navBar}>
                 <TouchableOpacity style={styles.navIcon} onPress={() => navigation.goBack()}>
-                    <Ionicons name="arrow-back" size={28} color="#e6c364" />
+                    <Text style={styles.navIconText}>←</Text>
                 </TouchableOpacity>
                 <Text style={styles.logoText}>FINDIT</Text>
                 <View style={styles.profileCircle}>
@@ -232,7 +233,7 @@ export default function RoomDetailScreen() {
 
                 {/* Report Button */}
                 <TouchableOpacity style={styles.goldReportButton} onPress={handleReportIssue}>
-                    <MaterialCommunityIcons name="alert" size={20} color="#131313" />
+                    <Text style={styles.alertIcon}>!</Text>
                     <Text style={styles.goldReportButtonText}>PROBLEEM MELDEN</Text>
                 </TouchableOpacity>
                 <View style={{ height: 40 }} />
@@ -494,6 +495,21 @@ const styles = StyleSheet.create({
     errorText: {
         color: '#f44336',
         fontSize: 16,
+    },
+    backIcon: {
+        color: '#e6c364',
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+    navIconText: {
+        color: '#e6c364',
+        fontSize: 28,
+        fontWeight: 'bold',
+    },
+    alertIcon: {
+        color: '#131313',
+        fontSize: 20,
+        fontWeight: 'bold',
     },
     backButtonAbsolute: {
         position: 'absolute',
