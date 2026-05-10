@@ -3,7 +3,7 @@ import { createStaticNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { View, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { AuthProvider, useAuth } from "./app/providers/AuthContext";
@@ -126,7 +126,9 @@ const AppDrawer = createDrawerNavigator({
       options: {
         headerShown: false,
         drawerLabel: "Main",
-        drawerIcon: ({ focused, color, size }) => (focused ? "☰" : "☰"),
+        drawerIcon: ({ color, size }) => (
+          <Text style={[styles.drawerIcon, { color, fontSize: size }]}>☰</Text>
+        ),
       },
     },
     Settings: {
@@ -134,7 +136,9 @@ const AppDrawer = createDrawerNavigator({
       options: {
         headerShown: false,
         drawerLabel: "Settings",
-        drawerIcon: ({ focused, color, size }) => (focused ? "⚙️" : "⚙️"),
+        drawerIcon: ({ color, size }) => (
+          <Text style={[styles.drawerIcon, { color, fontSize: size }]}>⚙️</Text>
+        ),
       },
     },
   },
@@ -176,5 +180,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#131313",
     justifyContent: "center",
     alignItems: "center",
+  },
+  drawerIcon: {
+    lineHeight: 24,
+    textAlign: "center",
   },
 });
