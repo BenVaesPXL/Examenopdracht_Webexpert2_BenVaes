@@ -231,6 +231,15 @@
       "status": "Open",
       "createdAt": "2026-05-01",
       "id": "MH6V7oO6dpM"
+    },
+    {
+      "roomId": "A204",
+      "userId": "1",
+      "type": "Technisch",
+      "description": "Beameriskapot",
+      "status": "Open",
+      "createdAt": "2026-05-14",
+      "id": "hOgCZgYS6PU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
