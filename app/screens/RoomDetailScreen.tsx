@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 // import { Ionicons } from '@expo/vector-icons';
 // import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { getRoom, getScheduleByRoom, Room, Schedule } from '../api/api';
+import OfflineBanner from '../components/OfflineBanner';
 
 type RootStackParamList = {
     RoomDetail: { id: string };
@@ -114,6 +115,7 @@ export default function RoomDetailScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
+            <OfflineBanner />
             {/* Custom Header */}
             <View style={styles.navBar}>
                 <TouchableOpacity style={styles.navIcon} onPress={() => navigation.goBack()}>
