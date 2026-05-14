@@ -28,8 +28,12 @@ export default function SettingsScreen() {
                     text: 'Log out',
                     style: 'destructive',
                     onPress: async () => {
-                        await logout();
-                        toast.showInfo('Logged out', 'You have been signed out.');
+                        try {
+                            await logout();
+                            toast.showInfo('Logged out', 'You have been signed out.');
+                        } catch (error) {
+                            toast.showError('Logout Failed', error instanceof Error ? error.message : 'Please try again.');
+                        }
                     },
                 },
             ]
