@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
@@ -10,6 +10,7 @@ import { useAuth } from '../providers/AuthContext';
 import { useToast } from '../providers/ToastContext';
 import { handleApiError } from '../utils/errorHandling';
 import { FullScreenSkeleton } from '../components/LoadingSpinner';
+import OfflineBanner from '../components/OfflineBanner';
 
 type RootTabParamList = {
     Home: undefined;
@@ -159,6 +160,7 @@ export default function HomeScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
+            <OfflineBanner />
             <View style={styles.header}>
                 <View style={styles.headerContent}>
                     <View style={styles.profileContainer}>

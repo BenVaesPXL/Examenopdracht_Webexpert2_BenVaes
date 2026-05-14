@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import FormInput, { Dropdown, RadioGroup } from '../components/FormInput';
@@ -9,6 +9,7 @@ import { useToast } from '../providers/ToastContext';
 import { validateReportForm, sanitizeText } from '../utils/validation';
 import { handleFormError } from '../utils/errorHandling';
 import { getRooms, Room, createReport } from '../api/api';
+import OfflineBanner from '../components/OfflineBanner';
 
 interface FormData {
   roomId: string;
@@ -211,6 +212,7 @@ export default function ReportFormScreen() {
   if (loading) {
     return (
       <SafeAreaView style={styles.container}>
+        <OfflineBanner />
         <LoadingSpinner text="Loading rooms..." />
       </SafeAreaView>
     );
@@ -218,6 +220,7 @@ export default function ReportFormScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <OfflineBanner />
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.form}>
           {/* Back Button */}

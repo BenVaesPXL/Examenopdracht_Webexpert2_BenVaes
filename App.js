@@ -1,4 +1,5 @@
 import "react-native-gesture-handler";
+import React, { Suspense, lazy } from "react";
 import { createStaticNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -11,13 +12,14 @@ import { ToastProvider } from "./app/providers/ToastContext";
 import LoadingSpinner from "./app/components/LoadingSpinner";
 
 import HomeScreen from "./app/screens/HomeScreen";
-import ScanScreen from "./app/screens/ScanScreen";
 import RoomListScreen from "./app/screens/RoomListScreen";
-import RoomDetailScreen from "./app/screens/RoomDetailScreen";
 import ProfielScreen from "./app/screens/ProfielScreen";
 import ReportFormScreen from "./app/screens/ReportFormScreen";
 import SettingsScreen from "./app/screens/SettingsScreen";
 import LoginScreen from "./app/screens/LoginScreen";
+
+const ScanScreen = lazy(() => import("./app/screens/ScanScreen"));
+const RoomDetailScreen = lazy(() => import("./app/screens/RoomDetailScreen"));
 
 const LokaalenStack = createNativeStackNavigator({
   screens: {
@@ -157,7 +159,19 @@ function AuthGate() {
     );
   }
 
-  return currentUser ? <Navigation /> : <LoginScreen />;
+  return currentUser ? (
+    <Suspense
+      fallback={
+        <View style={styles.loadingContainer}>
+          <LoadingSpinner text="Loading screen..." />
+        </View>
+      }
+    >
+      <Navigation />
+    </Suspense>
+  ) : (
+    <LoginScreen />
+  );
 }
 
 export default function App() {

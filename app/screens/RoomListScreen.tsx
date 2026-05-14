@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getRooms, Room } from '../api/api';
+import { getCachedRooms } from '../utils/cachedApi';
+import { Room } from '../api/api';
 import { useToast } from '../providers/ToastContext';
 import { handleApiError } from '../utils/errorHandling';
 import LoadingSpinner, { RoomCardSkeleton } from '../components/LoadingSpinner';
+import OfflineBanner from "../components/OfflineBanner";
 
 export default function RoomListScreen() {
     const navigation = useNavigation<any>();
@@ -16,7 +18,7 @@ export default function RoomListScreen() {
 
     const fetchRooms = async (showError = true) => {
         try {
-            const data = await getRooms();
+            const data = await getCachedRooms();
             setRooms(data);
         } catch (error) {
             if (showError) {
@@ -63,6 +65,7 @@ export default function RoomListScreen() {
     if (loading) {
         return (
             <SafeAreaView style={styles.container}>
+                <OfflineBanner />
                 <View style={styles.header}>
                     <Text style={styles.title}>All Rooms</Text>
                     <View style={styles.divider} />
@@ -78,6 +81,7 @@ export default function RoomListScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
+            <OfflineBanner />
             <View style={styles.header}>
                 <Text style={styles.title}>All Rooms</Text>
                 <View style={styles.divider} />
