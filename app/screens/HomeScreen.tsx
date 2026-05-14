@@ -1,8 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { CompositeNavigationProp } from '@react-navigation/native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getRooms, getScheduleByRoom, Room, Schedule } from '../api/api';
@@ -11,27 +7,10 @@ import { useToast } from '../providers/ToastContext';
 import { handleApiError } from '../utils/errorHandling';
 import { FullScreenSkeleton } from '../components/LoadingSpinner';
 import OfflineBanner from '../components/OfflineBanner';
-
-type RootTabParamList = {
-    Home: undefined;
-    Scan: undefined;
-    Lokalen: undefined;
-    Profile: { screen?: string };
-};
-
-type RootDrawerParamList = {
-    Main: undefined;
-    Settings: undefined;
-};
-
-type HomeScreenNavigationProp = CompositeNavigationProp<
-    BottomTabNavigationProp<RootTabParamList, 'Home'>,
-    DrawerNavigationProp<RootDrawerParamList>
->;
+import Animated, { FadeInRight } from 'react-native-reanimated';
 
 
 export default function HomeScreen() {
-    const navigation = useNavigation<HomeScreenNavigationProp>();
     const toast = useToast();
     const { currentUser } = useAuth();
     const [rooms, setRooms] = useState<Room[]>([]);
@@ -66,18 +45,6 @@ export default function HomeScreen() {
         fetchData();
         return () => clearInterval(timer);
     }, [toast]);
-
-    const handleScanQR = () => {
-        navigation.navigate('Scan');
-    };
-
-    const handleReportIssue = () => {
-        navigation.navigate('Profile', { screen: 'ReportForm' });
-    };
-
-    const handleRoomsList = () => {
-        navigation.navigate('Lokalen');
-    };
 
     const getScheduleStatus = () => {
         const currentDay = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'][currentTime.getDay()];
@@ -206,22 +173,6 @@ export default function HomeScreen() {
                         <View style={styles.heroIconPlaceholder} />
                     </View>
 
-                    {/* Quick Action Grid */}
-                    <View style={styles.quickActionGrid}>
-                        <TouchableOpacity style={styles.quickActionButton} onPress={handleScanQR}>
-                            <View style={styles.quickActionIconPlaceholder} />
-                            <Text style={styles.quickActionText}>SCAN QR</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.quickActionButton} onPress={handleReportIssue}>
-                            <View style={styles.quickActionIconPlaceholder} />
-                            <Text style={styles.quickActionText}>REPORT ISSUE</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.quickActionButton} onPress={handleRoomsList}>
-                            <View style={styles.quickActionIconPlaceholder} />
-                            <Text style={styles.quickActionText}>ROOMS LIST</Text>
-                        </TouchableOpacity>
-                    </View>
-
                     {/* Recently Visited Section */}
                     <View style={styles.recentSection}>
                         <View style={styles.recentHeader}>
@@ -229,10 +180,14 @@ export default function HomeScreen() {
                             <View style={styles.divider} />
                         </View>
                         <View style={styles.recentRooms}>
-                            {rooms.slice(0, 3).map((room) => {
+                            {rooms.slice(0, 3).map((room, index) => {
                                 const availability = getRoomAvailability(room.id);
                                 return (
-                                    <View key={room.id} style={styles.roomCard}>
+                                    <Animated.View
+                                        key={room.id}
+                                        entering={FadeInRight.delay(index * 120).duration(450)}
+                                        style={styles.roomCard}
+                                    >
                                         <View style={styles.roomCardContent}>
                                             <View style={styles.roomInfo}>
                                                 <Text style={styles.roomCode}>{room.id}</Text>
@@ -246,7 +201,7 @@ export default function HomeScreen() {
                                                 <View style={styles.statusIconPlaceholder} />
                                             </View>
                                         </View>
-                                    </View>
+                                    </Animated.View>
                                 );
                             })}
                         </View>
@@ -363,32 +318,6 @@ const styles = StyleSheet.create({
         right: 20.02,
         width: 56,
         height: 93.128,
-    },
-    quickActionGrid: {
-        flexDirection: 'row',
-        gap: 12,
-        height: 82,
-    },
-    quickActionButton: {
-        flex: 1,
-        backgroundColor: '#2a2a2a',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 16,
-        gap: 8,
-        borderRadius: 2,
-    },
-    quickActionIcon: {
-        width: 20,
-        height: 20,
-    },
-    quickActionText: {
-        color: '#e5e2e1',
-        fontSize: 10,
-        fontWeight: 'bold',
-        textTransform: 'uppercase',
-        letterSpacing: -0.5,
-        textAlign: 'center',
     },
     recentSection: {
         gap: 16,
