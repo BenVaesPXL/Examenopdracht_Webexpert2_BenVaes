@@ -125,7 +125,7 @@ export default function ReportFormScreen() {
   };
 
   const handleInputChange = (name: keyof FormData, value: string) => {
-    const sanitizedValue = sanitizeText(value);
+    const sanitizedValue = name ==='description' ? value: sanitizeText(value);
     setFormData(prev => ({ ...prev, [name]: sanitizedValue }));
     
     if (touched[name]) {
