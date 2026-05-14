@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView } from '
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getRooms, Room } from '../api/api';
-import { useToast } from '../context/ToastContext';
+import { useToast } from '../providers/ToastContext';
 import { handleApiError } from '../utils/errorHandling';
 import LoadingSpinner, { RoomCardSkeleton } from '../components/LoadingSpinner';
 

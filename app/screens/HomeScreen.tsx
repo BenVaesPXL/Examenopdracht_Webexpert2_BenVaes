@@ -5,10 +5,11 @@ import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getRooms, getScheduleByRoom, getUsers, Room, Schedule, User } from '../api/api';
-import { useToast } from '../context/ToastContext';
+import { getRooms, getScheduleByRoom, Room, Schedule } from '../api/api';
+import { useAuth } from '../providers/AuthContext';
+import { useToast } from '../providers/ToastContext';
 import { handleApiError } from '../utils/errorHandling';
-import LoadingSpinner, { FullScreenSkeleton } from '../components/LoadingSpinner';
+import { FullScreenSkeleton } from '../components/LoadingSpinner';
 
 type RootTabParamList = {
     Home: undefined;
@@ -31,15 +32,11 @@ type HomeScreenNavigationProp = CompositeNavigationProp<
 export default function HomeScreen() {
     const navigation = useNavigation<HomeScreenNavigationProp>();
     const toast = useToast();
+    const { currentUser } = useAuth();
     const [rooms, setRooms] = useState<Room[]>([]);
     const [schedules, setSchedules] = useState<Schedule[]>([]);
-    const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [currentTime, setCurrentTime] = useState(new Date());
-
-    const openDrawer = () => {
-        navigation.openDrawer();
-    };
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -48,10 +45,7 @@ export default function HomeScreen() {
 
         const fetchData = async () => {
             try {
-                const [roomsData, usersData] = await Promise.all([
-                    getRooms(),
-                    getUsers()
-                ]);
+                const roomsData = await getRooms();
                 
                 const allSchedules = await Promise.all(
                     roomsData.map(room => getScheduleByRoom(room.id))
@@ -60,7 +54,6 @@ export default function HomeScreen() {
                 
                 setRooms(roomsData);
                 setSchedules(flatSchedules);
-                setCurrentUser(usersData[0]);
             } catch (error) {
                 const errorToast = handleApiError(error);
                 toast.showToast(errorToast);
@@ -71,7 +64,7 @@ export default function HomeScreen() {
 
         fetchData();
         return () => clearInterval(timer);
-    }, []);
+    }, [toast]);
 
     const handleScanQR = () => {
         navigation.navigate('Scan');
@@ -166,11 +159,7 @@ export default function HomeScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* Header */}
             <View style={styles.header}>
-                <TouchableOpacity style={styles.menuButton} onPress={openDrawer}>
-                    <Text style={styles.menuIcon}>☰</Text>
-                </TouchableOpacity>
                 <View style={styles.headerContent}>
                     <View style={styles.profileContainer}>
                         <View style={styles.profilePlaceholder} />
@@ -475,7 +464,7 @@ const styles = StyleSheet.create({
         height: 80, // Header height
         backgroundColor: 'rgba(19, 19, 19, 0.9)',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         paddingHorizontal: 24,
         paddingTop: 10, // Add some top padding
@@ -505,19 +494,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         letterSpacing: -0.45,
-    },
-    menuButton: {
-        padding: 8,
-        borderRadius: 4,
-        backgroundColor: 'rgba(230, 195, 100, 0.1)',
-        borderWidth: 1,
-        borderColor: '#e6c364',
-    },
-    menuIcon: {
-        color: '#e6c364',
-        fontSize: 20,
-        fontWeight: 'bold',
-        lineHeight: 20,
     },
     // Placeholder styles for removed Figma assets
     heroIconPlaceholder: {
