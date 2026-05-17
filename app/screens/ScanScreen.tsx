@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -8,7 +8,6 @@ type RootStackParamList = {
     RoomDetail: { id: string };
 };
 
-const { width, height } = Dimensions.get('window');
 const SCAN_AREA_SIZE = 250;
 
 export default function ScanScreen() {
@@ -32,7 +31,7 @@ export default function ScanScreen() {
         );
     }
 
-    const handleBarCodeScanned = ({ type, data }: { type: string, data: string }) => {
+    const handleBarCodeScanned = ({ data }: { type: string, data: string }) => {
         if (scanned || !isFocused) return;
         setScanned(true);
         

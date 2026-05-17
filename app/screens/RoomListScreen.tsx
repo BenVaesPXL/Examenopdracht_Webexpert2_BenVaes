@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getCachedRooms } from '../utils/cachedApi';
 import { Room } from '../api/api';
 import { useToast } from '../providers/ToastContext';
 import { handleApiError } from '../utils/errorHandling';
-import LoadingSpinner, { RoomCardSkeleton } from '../components/LoadingSpinner';
+import { RoomCardSkeleton } from '../components/LoadingSpinner';
 import OfflineBanner from "../components/OfflineBanner";
 
 export default function RoomListScreen() {
     const navigation = useNavigation<any>();
     const [rooms, setRooms] = useState<Room[]>([]);
     const [loading, setLoading] = useState(true);
-    const [refreshing, setRefreshing] = useState(false);
     const toast = useToast();
 
     const fetchRooms = async (showError = true) => {
@@ -34,11 +33,6 @@ export default function RoomListScreen() {
     useEffect(() => {
         fetchRooms();
     }, []);
-
-    const handleRefresh = () => {
-        setRefreshing(true);
-        fetchRooms(false); // Don't show error on refresh
-    };
 
     const handleRoomPress = (roomId: string) => {
         navigation.navigate('RoomDetail', { id: roomId });
@@ -106,11 +100,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#131313',
-    },
-    center: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     header: {
         paddingHorizontal: 24,

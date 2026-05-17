@@ -1,10 +1,11 @@
 import "react-native-gesture-handler";
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import { createStaticNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { View, Text, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { View, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { AuthProvider, useAuth } from "./app/providers/AuthContext";
@@ -20,6 +21,10 @@ import LoginScreen from "./app/screens/LoginScreen";
 
 const ScanScreen = lazy(() => import("./app/screens/ScanScreen"));
 const RoomDetailScreen = lazy(() => import("./app/screens/RoomDetailScreen"));
+
+const navIcon = (name) => ({ color, size }) => (
+  <Ionicons name={name} size={size} color={color} />
+);
 
 const LokaalenStack = createNativeStackNavigator({
   screens: {
@@ -76,6 +81,7 @@ const Tabs = createBottomTabNavigator({
       options: {
         headerShown: false,
         tabBarLabel: "HOME",
+        tabBarIcon: navIcon("home-outline"),
       },
     },
     Scan: {
@@ -83,6 +89,7 @@ const Tabs = createBottomTabNavigator({
       options: {
         headerShown: false,
         tabBarLabel: "SCAN",
+        tabBarIcon: navIcon("qr-code-outline"),
       },
     },
     Lokalen: {
@@ -90,6 +97,7 @@ const Tabs = createBottomTabNavigator({
       options: {
         headerShown: false,
         tabBarLabel: "ROOMS",
+        tabBarIcon: navIcon("grid-outline"),
       },
     },
     Profile: {
@@ -97,6 +105,7 @@ const Tabs = createBottomTabNavigator({
       options: {
         headerShown: false,
         tabBarLabel: "PROFILE",
+        tabBarIcon: navIcon("person-outline"),
       },
     },
   },
@@ -128,9 +137,7 @@ const AppDrawer = createDrawerNavigator({
       options: {
         headerShown: false,
         drawerLabel: "Main",
-        drawerIcon: ({ color, size }) => (
-          <Text style={[styles.drawerIcon, { color, fontSize: size }]}>☰</Text>
-        ),
+        drawerIcon: navIcon("menu-outline"),
       },
     },
     Settings: {
@@ -138,9 +145,7 @@ const AppDrawer = createDrawerNavigator({
       options: {
         headerShown: false,
         drawerLabel: "Settings",
-        drawerIcon: ({ color, size }) => (
-          <Text style={[styles.drawerIcon, { color, fontSize: size }]}>⚙️</Text>
-        ),
+        drawerIcon: navIcon("settings-outline"),
       },
     },
   },
@@ -150,11 +155,32 @@ const Navigation = createStaticNavigation(AppDrawer);
 
 function AuthGate() {
   const { currentUser, isLoading } = useAuth();
+  const [iconsLoaded, setIconsLoaded] = useState(false);
 
-  if (isLoading) {
+  useEffect(() => {
+    let mounted = true;
+
+    Ionicons.loadFont()
+      .then(() => {
+        if (mounted) {
+          setIconsLoaded(true);
+        }
+      })
+      .catch(() => {
+        if (mounted) {
+          setIconsLoaded(true);
+        }
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  if (isLoading || !iconsLoaded) {
     return (
       <View style={styles.loadingContainer}>
-        <LoadingSpinner text="Loading session..." />
+        <LoadingSpinner text={isLoading ? "Loading session..." : "Loading icons..."} />
       </View>
     );
   }
@@ -194,9 +220,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#131313",
     justifyContent: "center",
     alignItems: "center",
-  },
-  drawerIcon: {
-    lineHeight: 24,
-    textAlign: "center",
   },
 });
