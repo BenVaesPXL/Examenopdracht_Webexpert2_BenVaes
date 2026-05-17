@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { getRooms, getScheduleByRoom, Room, Schedule } from '../api/api';
 import { useAuth } from '../providers/AuthContext';
 import { useToast } from '../providers/ToastContext';
@@ -13,6 +14,7 @@ import Animated, { FadeInRight } from 'react-native-reanimated';
 export default function HomeScreen() {
     const toast = useToast();
     const { currentUser } = useAuth();
+    const userInitial = currentUser?.name?.charAt(0).toUpperCase() || 'U';
     const [rooms, setRooms] = useState<Room[]>([]);
     const [schedules, setSchedules] = useState<Schedule[]>([]);
     const [loading, setLoading] = useState(true);
@@ -131,7 +133,7 @@ export default function HomeScreen() {
             <View style={styles.header}>
                 <View style={styles.headerContent}>
                     <View style={styles.profileContainer}>
-                        <View style={styles.profilePlaceholder} />
+                        <Text style={styles.profileInitial}>{userInitial}</Text>
                     </View>
                     <Text style={styles.greeting}>Good Morning, {currentUser?.name || 'Student'}</Text>
                 </View>
@@ -170,7 +172,9 @@ export default function HomeScreen() {
                                 </View>
                             )}
                         </View>
-                        <View style={styles.heroIconPlaceholder} />
+                        <View style={styles.heroIconBadge}>
+                            <Ionicons name="calendar-outline" size={28} color="#e6c364" />
+                        </View>
                     </View>
 
                     {/* Recently Visited Section */}
@@ -198,7 +202,11 @@ export default function HomeScreen() {
                                                 <Text style={availability === 'Vrij' ? styles.statusAvailable : styles.statusText}>
                                                     {availability}
                                                 </Text>
-                                                <View style={styles.statusIconPlaceholder} />
+                                                <Ionicons
+                                                    name={availability === 'Vrij' ? 'checkmark-circle-outline' : 'close-circle-outline'}
+                                                    size={16}
+                                                    color={availability === 'Vrij' ? '#4caf50' : '#f44336'}
+                                                />
                                             </View>
                                         </View>
                                     </Animated.View>
@@ -216,15 +224,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#131313',
-    },
-    loadingContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    loadingText: {
-        color: '#e5e2e1',
-        fontSize: 16,
     },
     scrollView: {
         flex: 1,
@@ -311,13 +310,6 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: '#e6c364',
         borderRadius: 2,
-    },
-    heroIcon: {
-        position: 'absolute',
-        bottom: 2.87,
-        right: 20.02,
-        width: 56,
-        height: 93.128,
     },
     recentSection: {
         gap: 16,
@@ -414,11 +406,13 @@ const styles = StyleSheet.create({
         borderColor: '#4d4637',
         borderRadius: 12,
         overflow: 'hidden',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    profileImage: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
+    profileInitial: {
+        color: '#e6c364',
+        fontSize: 14,
+        fontWeight: 'bold',
     },
     greeting: {
         color: '#e6c364',
@@ -426,38 +420,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         letterSpacing: -0.45,
     },
-    // Placeholder styles for removed Figma assets
-    heroIconPlaceholder: {
-        position: 'absolute',
-        bottom: 2.87,
-        right: 20.02,
-        width: 56,
-        height: 93.128,
-        backgroundColor: '#353535',
-        borderRadius: 8,
-    },
-    quickActionIconPlaceholder: {
-        width: 20,
-        height: 20,
-        backgroundColor: '#4d4637',
-        borderRadius: 4,
-    },
-    statusIconPlaceholder: {
-        width: 4,
-        height: 7,
-        backgroundColor: '#4d4637',
-        borderRadius: 1,
-    },
-    profilePlaceholder: {
-        width: '100%',
-        height: '100%',
-        backgroundColor: '#4d4637',
-        borderRadius: 12,
-    },
-    settingsIconPlaceholder: {
-        width: 15,
-        height: 19,
-        backgroundColor: '#4d4637',
-        borderRadius: 2,
+    heroIconBadge: {
+        alignSelf: 'flex-end',
+        marginTop: 8,
+        width: 48,
+        height: 48,
+        borderRadius: 24,
+        backgroundColor: 'rgba(230, 195, 100, 0.08)',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });

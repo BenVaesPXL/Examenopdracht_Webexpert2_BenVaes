@@ -231,6 +231,11 @@ export default function ReportFormScreen() {
             <Text style={styles.backButtonText}>← BACK</Text>
           </TouchableOpacity>
 
+          <View style={styles.header}>
+            <Text style={styles.title}>Report an Issue</Text>
+            <Text style={styles.subtitle}>Let us know what needs attention in the room.</Text>
+          </View>
+
           {/* Room Selection */}
           <Dropdown
             label="Room"
@@ -313,23 +318,37 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#131313',
   },
-  header: {
-    paddingHorizontal: 24,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#353535',
-  },
-  headerTitle: {
-    color: '#e5e2e1',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
   scrollView: {
     flex: 1,
   },
   form: {
     padding: 24,
     gap: 16,
+  },
+  backButton: {
+    alignSelf: 'flex-start',
+    marginBottom: 16,
+    padding: 8,
+  },
+  backButtonText: {
+    color: '#e6c364',
+    fontSize: 12,
+    fontWeight: 'bold',
+    letterSpacing: 1.2,
+  },
+  header: {
+    gap: 8,
+    marginBottom: 8,
+  },
+  title: {
+    color: '#e5e2e1',
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  subtitle: {
+    color: '#d0c5b2',
+    fontSize: 14,
+    lineHeight: 20,
   },
   submitButton: {
     backgroundColor: '#e6c364',
@@ -348,17 +367,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     textTransform: 'uppercase',
-    letterSpacing: 1.2,
-  },
-  backButton: {
-    alignSelf: 'flex-start',
-    marginBottom: 16,
-    padding: 8,
-  },
-  backButtonText: {
-    color: '#e6c364',
-    fontSize: 12,
-    fontWeight: 'bold',
     letterSpacing: 1.2,
   },
 });

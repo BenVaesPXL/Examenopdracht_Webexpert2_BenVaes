@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-// import { Ionicons } from '@expo/vector-icons';
-// import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { getRoom, getScheduleByRoom, Room, Schedule } from '../api/api';
 import OfflineBanner from '../components/OfflineBanner';
@@ -86,7 +85,7 @@ export default function RoomDetailScreen() {
                     style={styles.backButtonAbsolute} 
                     onPress={() => navigation.goBack()}
                 >
-                    <Text style={styles.backIcon}>←</Text>
+                    <Ionicons name="chevron-back" size={28} color="#e6c364" />
                 </TouchableOpacity>
                 <Text style={styles.errorText}>Room not found</Text>
             </View>
@@ -100,15 +99,13 @@ export default function RoomDetailScreen() {
     const getNextLesson = () => {
         const currentDay = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'][currentTime.getDay()];
         const nowMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
-        
-        const upcoming = schedule
+
+        return schedule
             .filter(item => item.day === currentDay)
             .find(item => {
                 const start = parseInt(item.start.split(':')[0]) * 60 + parseInt(item.start.split(':')[1]);
                 return start > nowMinutes;
             });
-            
-        return upcoming;
     };
 
     const nextLesson = getNextLesson();
@@ -119,11 +116,10 @@ export default function RoomDetailScreen() {
             {/* Custom Header */}
             <View style={styles.navBar}>
                 <TouchableOpacity style={styles.navIcon} onPress={() => navigation.goBack()}>
-                    <Text style={styles.navIconText}>←</Text>
+                    <Ionicons name="chevron-back" size={28} color="#e6c364" />
                 </TouchableOpacity>
-                <Text style={styles.logoText}>FINDIT</Text>
                 <View style={styles.profileCircle}>
-                    <View style={styles.profilePlaceholder} />
+                    <Ionicons name="business-outline" size={18} color="#e6c364" />
                 </View>
             </View>
 
@@ -235,7 +231,7 @@ export default function RoomDetailScreen() {
 
                 {/* Report Button */}
                 <TouchableOpacity style={styles.goldReportButton} onPress={handleReportIssue}>
-                    <Text style={styles.alertIcon}>!</Text>
+                    <Ionicons name="warning-outline" size={20} color="#131313" />
                     <Text style={styles.goldReportButtonText}>PROBLEEM MELDEN</Text>
                 </TouchableOpacity>
                 <View style={{ height: 40 }} />
@@ -277,10 +273,8 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         borderWidth: 1,
         borderColor: '#4d4637',
-    },
-    profilePlaceholder: {
-        flex: 1,
-        backgroundColor: '#4d4637',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     scrollView: {
         flex: 1,
@@ -497,21 +491,6 @@ const styles = StyleSheet.create({
     errorText: {
         color: '#f44336',
         fontSize: 16,
-    },
-    backIcon: {
-        color: '#e6c364',
-        fontSize: 24,
-        fontWeight: 'bold',
-    },
-    navIconText: {
-        color: '#e6c364',
-        fontSize: 28,
-        fontWeight: 'bold',
-    },
-    alertIcon: {
-        color: '#131313',
-        fontSize: 20,
-        fontWeight: 'bold',
     },
     backButtonAbsolute: {
         position: 'absolute',
